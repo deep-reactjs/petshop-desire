@@ -5,12 +5,13 @@ const auth = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+
     const formattedToken = token.split(" ")[1];
-    const verifyToken = jwt.verify(formattedToken, "dfsdfsfdsdf1");
+    const verifyToken = jwt.verify(formattedToken, "dfsdfsfdsdf");
     req.user = verifyToken;
     next();
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error", error });
   }
 };
 module.exports = auth;

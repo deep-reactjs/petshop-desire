@@ -1,6 +1,7 @@
 const userModel = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const createUser = async (req, res) => {
   try {
     const data = req.body;
@@ -19,7 +20,7 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await userModel.find();
+    const users = await userModel.find().populate("shops");
     res
       .status(200)
       .json({ message: "Users fetched successfully", data: users });
@@ -45,7 +46,6 @@ const loginUser = async (req, res) => {
     id: userExist._id,
   };
   const token = await jwt.sign(userData, "dfsdfsfdsdf", { expiresIn: 3600 });
-  console.log(token);
   // console.log(comparePassword);
   // const isUserExist =
   res

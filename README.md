@@ -2,3 +2,68 @@
 
 Online pets and pet foods store locations
 ..
+
+Api call in react:
+
+sample code
+
+<!--
+
+import { useEffect, useState } from "react";
+const Home = () => {
+  const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:3000/users", {
+        method: "Get",
+      });
+      const data = await response.json();
+      setUserData(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log(userData);
+  useEffect(() => {
+    getData();
+  }, []);
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+  return (
+    <div>
+      <h1>Home</h1>
+      <br />
+      {userData?.data?.length > 0 &&
+        userData.data.map((user) => (
+          <div className="my-6" key={user._id}>
+            <h2>{user.name}</h2>
+            <p>Email: {user.email}</p>
+            <p>Role: {user.role}</p>
+            <p>Active: {user.isActive ? "Yes" : "No"}</p>
+            {user.shops.map((shop) => (
+              <div key={shop._id}>
+                <h3>Shop: {shop.name}</h3>
+                <p>Contact: {shop.contactNo}</p>
+                <p>Email: {shop.email}</p>
+                <p>Description: {shop.description}</p>
+                <p>Status: {shop.status}</p>
+                <p>
+                  Address: {shop.address.street}, {shop.address.city},{" "}
+                  {shop.address.state}, {shop.address.country},{" "}
+                  {shop.address.zipCode}
+                </p>
+              </div>
+            ))}
+          </div>
+        ))}
+    </div>
+  );
+};
+export default Home;
+
+ -->
