@@ -34,6 +34,12 @@ const userSchema = new mongoose.Schema(
       default: true,
       required: true,
     },
+    shops: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Shop",
+      },
+    ],
   },
   {
     timestamps: true,
@@ -42,7 +48,6 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre("save", async function (next) {
   try {
-    console.log(this);
     const data = this;
     const encryptedPassword = await bcrypt.hash(data.password, 10);
     data.password = encryptedPassword;
