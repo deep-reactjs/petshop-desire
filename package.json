@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.1",
     "multer": "^1.4.5-lts.1",
+    "vercel": "^41.6.2",
     "zlib": "^1.0.5"
   }
 }
