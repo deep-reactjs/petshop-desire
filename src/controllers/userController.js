@@ -44,10 +44,9 @@ const loginUser = async (req, res) => {
   const userData = {
     email: userExist.email,
     id: userExist._id,
+    role: userExist.role,
   };
   const token = await jwt.sign(userData, "dfsdfsfdsdf", { expiresIn: 3600 });
-  // console.log(comparePassword);
-  // const isUserExist =
   res
     .status(200)
     .json({ message: "Logged in successfully", data: { ...userData, token } });
