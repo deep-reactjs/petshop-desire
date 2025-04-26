@@ -2,10 +2,25 @@ const petModel = require("../models/pet");
 const shopModel = require("../models/shop");
 
 const getPetsList = async (req, res) => {
-  const list = await petModel.find();
-  return res
-    .status(200)
-    .json({ message: "Pets list fetched successfully", data: list });
+  const params = req.query;
+  const pageNo = params.pageNo || 1;
+  const pageSize = params.pageSize || 10;
+  const searchText = params.searchText?.length > 2 ? params.searchText : "";
+  if (searchText.length < 2) {
+    return res
+      .status(400)
+      .json({ message: "Search text should be atleast 3 characters long" });
+  }
+  const list = await petModel
+    .find({ name: { $regex: searchText, $options: "i" } })
+    .skip((pageNo - 1) * pageSize)
+    .limit(pageSize);
+  const totalRecords = await petModel.countDocuments();
+  return res.status(200).json({
+    message: "Pets list fetched successfully",
+    data: list,
+    totalRecords,
+  });
 };
 
 const createPet = async (req, res) => {
